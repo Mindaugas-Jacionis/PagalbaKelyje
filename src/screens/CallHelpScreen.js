@@ -13,6 +13,14 @@ class CallHelpScreen extends Component {
     }
   }
 
+  handleDeepLink() {
+    const { navigator } = this.props;
+    navigator.popToRoot({ animated: false });
+    navigator.handleDeepLink({
+      link: 'call_help/12345/test'
+    });
+  }
+
   onCallHelp() {
     this.props.navigator.pop();
     Alert.alert('Pagalbos užklausa išsiųsta netoliese esantiems vartotojams');
@@ -46,6 +54,9 @@ class CallHelpScreen extends Component {
         </View>
         <TouchableOpacity onPress={() => this.onCallHelp()} style={styles.button}>
           <Text style={styles.text}>Siusti uzklausa</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => this.handleDeepLink()} style={styles.button}>
+          <Text style={styles.text}>Deep Link test</Text>
         </TouchableOpacity>
       </View>
     );

@@ -11,9 +11,33 @@ class MainScreen extends Component {
 
   constructor(props) {
     super(props);
+    this.props.navigator.setOnNavigatorEvent((event) => this.onNavigatorEvent(event));
     this.state = {
       carPlate: '',
       showModal: false
+    }
+  }
+
+  onNavigatorEvent(event) {
+    const { navigator } = this.props;
+
+    if (event.type == 'DeepLink') {
+      const parts = event.link.split('/');
+
+      if (parts[0] == 'call_help') {
+        navigator.push({
+          screen: 'CallHelpScreen',
+          passProps: { testToken: parts[1] }
+        });
+        if (parts[2] && parts[2] === 'test') {
+          navigator.push({
+            screen: 'TestScreen',
+            passProps: { testToken: parts[1] }
+          });
+        }
+      } else {
+        console.log('unhandled deeplink');
+      }
     }
   }
 
