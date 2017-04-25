@@ -14,7 +14,8 @@ class LoginScreen extends Component {
 
     setTimeout(() => {
       this.props.navigator.resetTo({
-        screen: 'MainScreen'
+        // screen: 'MainScreen'
+        screen: 'MultiSelectListScreen'
       });
     }, 1500);
   }
