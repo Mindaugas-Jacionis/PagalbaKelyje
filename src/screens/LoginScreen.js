@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   },
 
   text: {
-    fontSize: 20,
+    fontSize: 16,
     textAlign: 'center',
     fontWeight: '600',
     color: '#ffffff',
