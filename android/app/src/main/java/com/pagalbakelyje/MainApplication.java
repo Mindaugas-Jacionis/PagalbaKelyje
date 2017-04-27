@@ -1,9 +1,5 @@
 package com.pagalbakelyje;
 
-
-
-
-
 import com.facebook.react.ReactPackage;
 import com.facebook.react.shell.MainReactPackage;
 import com.reactnativenavigation.NavigationApplication;
