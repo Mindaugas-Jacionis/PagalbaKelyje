@@ -13,7 +13,7 @@ export default class App {
   startApp() {
     Navigation.startSingleScreenApp({
       screen: {
-        screen: 'LoginScreen',
+        screen: 'MainScreen',
         title: 'Login'
       }
     });

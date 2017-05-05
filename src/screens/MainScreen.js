@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Platform, TextInput } from 'react-native';
-import dismissKeyboard from 'react-native-dismiss-keyboard';
-
-const isApple = Platform.OS === 'ios';
+import { StyleSheet, View, DatePickerIOS } from 'react-native';
+import moment from 'moment';
 
 class MainScreen extends Component {
   static navigatorStyle = {
@@ -12,55 +10,35 @@ class MainScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      carPlate: '',
-      showModal: false
+      date_time: moment(),
+      date: '2017-04-29',
+      time: '17:00'
     }
   }
 
-  toggleModal() {
-    dismissKeyboard();
-    this.setState({ showModal: !this.state.showModal });
-  }
+  onDateChange(date) {
+    const d = moment(date);
 
-  nextScreen() {
-    this.props.navigator.push({
-      screen: 'CallHelpScreen',
-      title: 'Prašyti pagalbos'
+    this.setState({
+      date_time: d,
+      date: d.format('YYYY-MM-DD'),
+      time: d.format('HH:mm')
     });
   }
 
   render() {
-    const { carPlate, showModal } = this.state;
+    const { date, time, date_time } = this.state;
+    const a = new Date();
 
     return (
       <View style={styles.container}>
-        <TouchableOpacity
-          style={showModal ? [styles.modalWrapper, styles.activeModal] : styles.modalWrapper}
-          onPress={() => this.toggleModal()}
-        >
-          <View style={styles.modal}>
-            <TextInput
-              style={styles.input}
-              onChangeText={(text) => this.setState({ carPlate: String(text).toUpperCase() })}
-              value={carPlate}
-            />
-            <TouchableOpacity onPress={() => this.toggleModal()} style={styles.button}>
-              <Text style={styles.text}>Išsaugoti</Text>
-            </TouchableOpacity>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button, styles.carPlate]}
-          onPress={() => this.toggleModal()}
-        >
-          <Text style={[styles.text, { color: '#000' }]}>{carPlate || 'Įvesti automobilio numerius'}</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[styles.button, styles.help]}
-          onPress={() => this.nextScreen()}
-        >
-          <Text style={styles.text}>Prašyti bagalbos</Text>
-        </TouchableOpacity>
+        <DatePickerIOS
+          minuteInterval={30}
+          date={date_time.toDate()}
+          mode='datetime'
+          onDateChange={(date) => this.onDateChange(date)}
+          timeZoneOffsetInMinutes={30}
+        />
       </View>
     );
   }
@@ -70,74 +48,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    alignItems: 'center',
     backgroundColor: '#F5FCFF'
-  },
-
-  text: {
-    fontSize: 16,
-    textAlign: 'center',
-    fontWeight: '600',
-    color: '#fff',
-    margin: 10
-  },
-
-  modalWrapper: {
-    position: 'absolute',
-    overflow: 'hidden',
-    width: 0,
-    height: 0,
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    justifyContent: 'center',
-    zIndex: 99
-  },
-
-  activeModal: {
-    width: '100%',
-    height: '100%'
-  },
-
-  modal: {
-    paddingHorizontal: 14,
-    margin: 14,
-    backgroundColor: '#ffffff',
-    borderRadius: 6
-  },
-
-  button: {
-    paddingHorizontal: 14,
-    paddingVertical: 7,
-    width: '100%',
-    borderRadius: 6,
-    marginVertical: 14,
-    backgroundColor: '#239d1a'
-  },
-
-  carPlate: {
-    alignSelf: 'center',
-    justifyContent: 'center',
-    padding: 7,
-    backgroundColor: '#ffffff',
-    borderWidth: 2,
-    borderColor: '#000000',
-    width: null
-  },
-
-  help: {
-    position: 'absolute',
-    bottom: 14,
-    width: null,
-    left: 14,
-    right: 14
-  },
-
-  input: {
-    height: 60,
-    borderColor: 'gray',
-    borderWidth: isApple ? 1 : 0,
-    borderRadius: 6,
-    marginTop: 14,
-    paddingHorizontal: 14
   }
 });
 
